@@ -5,12 +5,16 @@
  */
 package tests;
 
+import static org.junit.Assert.*;
 import interfaces.IHalfEdgeDatastructure;
 import interfaces.IHalfEdgeFacet;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import classes.HalfEdge;
+import classes.HalfEdgeDatastructureOperations;
 import classes.HalfEdgeVertex;
 
 /**

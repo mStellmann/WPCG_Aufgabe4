@@ -5,9 +5,12 @@
  */
 package tests;
 
+import static org.junit.Assert.*;
 import interfaces.IHalfEdgeDatastructure;
 
 import javax.vecmath.Point3f;
+
+import org.junit.Test;
 
 import classes.HalfEdge;
 import classes.HalfEdgeDatastructure;
