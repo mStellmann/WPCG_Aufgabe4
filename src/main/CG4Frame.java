@@ -1,5 +1,7 @@
 package main;
 
+import interfaces.IHalfEdgeDatastructure;
+
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
@@ -12,10 +14,16 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
+import classes.Triangle;
+import classes.TriangleMesh;
+
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
-public class CG3Frame extends JFrame {
+import factories.HalfEdgeDatastructureConverter;
+import factories.MeshShapeFactory;
+
+public class CG4Frame extends JFrame {
 
 	/**
 	 * Gernerated serialnumber.
@@ -40,7 +48,7 @@ public class CG3Frame extends JFrame {
 	/**
 	 * Default constructor.
 	 */
-	public CG3Frame() {
+	public CG4Frame() {
 		// Create canvas object to draw on
 		canvas3D = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
 
@@ -64,7 +72,7 @@ public class CG3Frame extends JFrame {
 
 		// Setup frame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Aufgabe 2 - Triangles everywhere");
+		setTitle("Aufgabe 4 - HalfEdgeDatastructure");
 		setSize(500, 500);
 		getContentPane().add("Center", canvas3D);
 		setVisible(true);
@@ -101,13 +109,61 @@ public class CG3Frame extends JFrame {
 	 * Create the default scene graph.
 	 */
 	protected void createSceneGraph() {
-			
+		TriangleMesh tetrahedron = createTetrahedron();
 		// Adding mesh to our scene
-		 scene.addChild(null);
+		scene.addChild(MeshShapeFactory.createMeshShape(tetrahedron));
+
+		IHalfEdgeDatastructure hed = HalfEdgeDatastructureConverter.convert(tetrahedron);
+		System.out.println(hed);
 
 		// Assemble scene
 		scene.compile();
 		universe.addBranchGraph(scene);
+	}
+
+	/**
+	 * Private method to create a TriangleMesh of a tetrahedron.
+	 * 
+	 * @return TriangleMesh of a tetrahedron.
+	 */
+	private TriangleMesh createTetrahedron() {
+		TriangleMesh mesh = new TriangleMesh();
+		double h = Math.sqrt(0.75);
+		double xOffset = -0.5;
+		double yOffset = -Math.sqrt(1 - 0.1875) / 2;
+		double zOffset = -(h / 2);
+		Point3d p0 = new Point3d(0.0 + xOffset, 0.0 + yOffset, 0.0 + zOffset);
+		Point3d p1 = new Point3d(1.0 + xOffset, 0.0 + yOffset, 0.0 + zOffset);
+		Point3d p2 = new Point3d(0.5 + xOffset, 0.0 + yOffset, -h + zOffset);
+		Point3d p3 = new Point3d(0.5 + xOffset, Math.sqrt(1 - 0.1875) + yOffset, -(h / 2) + zOffset);
+
+		addTriangleToMesh(p2, p1, p0, mesh);
+		addTriangleToMesh(p0, p1, p3, mesh);
+		addTriangleToMesh(p1, p2, p3, mesh);
+		addTriangleToMesh(p2, p0, p3, mesh);
+
+		return mesh;
+	}
+
+	/**
+	 * Private methode to add a triangle to a TriangleMesh.
+	 * 
+	 * @param p1
+	 *            First vertex of the triangle.
+	 * @param p2
+	 *            Second vertex of the triangle.
+	 * @param p3
+	 *            Third vertex of the triangle.
+	 * @param mesh
+	 *            Given mesh to add the triangle.
+	 */
+	private void addTriangleToMesh(Point3d p1, Point3d p2, Point3d p3, TriangleMesh mesh) {
+		int vert1 = mesh.addVertex(p1);
+		int vert2 = mesh.addVertex(p2);
+		int vert3 = mesh.addVertex(p3);
+		Triangle triangle = new Triangle(vert1, vert2, vert3);
+		triangle.computeNormal(p1, p2, p3);
+		mesh.addTriangle(triangle);
 	}
 
 	/**
@@ -118,9 +174,9 @@ public class CG3Frame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		// Create the central frame
-		CG3Frame frame = new CG3Frame();
+		CG4Frame frame = new CG4Frame();
 		// Add content to the scene graph
-		frame.createSceneGraph();		
+		frame.createSceneGraph();
 	}
 
 }
