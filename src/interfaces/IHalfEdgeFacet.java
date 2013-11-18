@@ -39,4 +39,9 @@ public abstract class IHalfEdgeFacet {
         this.halfEdge = halfEdge;
     }
 
+	@Override
+	public String toString() {
+		return "IHalfEdgeFacet [halfEdge=" + halfEdge.getName() + "]";
+	}
+
 }

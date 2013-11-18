@@ -74,4 +74,9 @@ public class HalfEdgeVertex {
     public String getName() {
         return name;
     }
+
+	@Override
+	public String toString() {
+		return "HalfEdgeVertex [name=" + name + ", position=" + position + ", halfEdge=" + halfEdge.getName() + "]";
+	}
 }

@@ -60,9 +60,9 @@ public class HalfEdgeDatastructureConverter {
 			// creating the vertices
 			Point3f keyI = new Point3f(triangleMesh.getVertex(elem.getI()));
 			HalfEdgeVertex halfEdgeVertexI;
-			Point3f keyJ = new Point3f(triangleMesh.getVertex(elem.getI()));
+			Point3f keyJ = new Point3f(triangleMesh.getVertex(elem.getJ()));
 			HalfEdgeVertex halfEdgeVertexJ;
-			Point3f keyK = new Point3f(triangleMesh.getVertex(elem.getI()));
+			Point3f keyK = new Point3f(triangleMesh.getVertex(elem.getK()));
 			HalfEdgeVertex halfEdgeVertexK;
 
 			// Checking if every Vertex is unique
@@ -70,24 +70,30 @@ public class HalfEdgeDatastructureConverter {
 				halfEdgeVertexI = vertexMap.get(keyI);
 			} else {
 				halfEdgeVertexI = new HalfEdgeVertex(keyI);
+				vertexMap.put(keyI, halfEdgeVertexI);
 				halfEdgeVertexI.setName(getNextVertexName());
 				halfEdgeVertexI.setHalfEdge(halfEdgeI);
+				halfEdgeDatastructure.addVertex(halfEdgeVertexI);
 			}
 
 			if (vertexMap.containsKey(keyJ)) {
 				halfEdgeVertexJ = vertexMap.get(keyJ);
 			} else {
 				halfEdgeVertexJ = new HalfEdgeVertex(keyJ);
+				vertexMap.put(keyJ, halfEdgeVertexJ);
 				halfEdgeVertexJ.setName(getNextVertexName());
 				halfEdgeVertexJ.setHalfEdge(halfEdgeJ);
+				halfEdgeDatastructure.addVertex(halfEdgeVertexJ);
 			}
 
 			if (vertexMap.containsKey(keyK)) {
 				halfEdgeVertexK = vertexMap.get(keyK);
 			} else {
 				halfEdgeVertexK = new HalfEdgeVertex(keyK);
+				vertexMap.put(keyK, halfEdgeVertexK);
 				halfEdgeVertexK.setName(getNextVertexName());
 				halfEdgeVertexK.setHalfEdge(halfEdgeK);
+				halfEdgeDatastructure.addVertex(halfEdgeVertexK);
 			}
 
 			// setting halfedge-names
@@ -126,19 +132,16 @@ public class HalfEdgeDatastructureConverter {
 			halfEdgeDatastructure.addHalfEdge(halfEdgeK);
 		}
 
-		// adding the vertices to the datastructure
-		for (HalfEdgeVertex elem : vertexMap.values()) {
-			halfEdgeDatastructure.addVertex(elem);
-		}
-
 		// setting all opposite-halfedges
 		for (int i = 0; i < halfEdgeDatastructure.getNumberOfHalfEdges(); i++) {
-			// wenn opposite != null -> ausführen; sonst continue.. TODO
-			// Algorithmus verbesseren und Fehler finden
 			HalfEdge halfEdge = halfEdgeDatastructure.getHalfEdge(i);
+			if (halfEdge.getOpposite() != null)
+				continue;
 			HalfEdgeVertex startVertex = halfEdge.getVertex();
 			HalfEdgeVertex nextStartVertex = halfEdge.getNext().getVertex();
-			halfEdge.setOpposite(findOpposite(0, startVertex, nextStartVertex, halfEdgeDatastructure));
+			HalfEdge opposite = findOpposite(0, startVertex, nextStartVertex, halfEdgeDatastructure);
+			halfEdge.setOpposite(opposite);
+			opposite.setOpposite(halfEdge);
 		}
 
 		return halfEdgeDatastructure;
@@ -160,9 +163,6 @@ public class HalfEdgeDatastructureConverter {
 	 * @return The opposite halfedge.
 	 */
 	private static HalfEdge findOpposite(int x, HalfEdgeVertex startVertex, HalfEdgeVertex nextStartVertex, IHalfEdgeDatastructure halfEdgeDatastructure) {
-		// wenn getHalfEdge(x).getOpposite == getHalfEdge -> opposite setzen ->
-		// zeit / 2 ... TODO Algorithmus verbesseren und Fehler finden
-
 		HalfEdgeVertex startVertex_X = halfEdgeDatastructure.getHalfEdge(x).getVertex();
 		HalfEdgeVertex nextStartVertex_X = halfEdgeDatastructure.getHalfEdge(x).getNext().getVertex();
 		if (startVertex == nextStartVertex_X && nextStartVertex == startVertex_X) {

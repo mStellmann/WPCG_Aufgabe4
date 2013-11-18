@@ -114,7 +114,9 @@ public class CG4Frame extends JFrame {
 		scene.addChild(MeshShapeFactory.createMeshShape(tetrahedron));
 
 		IHalfEdgeDatastructure hed = HalfEdgeDatastructureConverter.convert(tetrahedron);
-		System.out.println(hed);
+		for(int i = 0; i < hed.getNumberOfHalfEdges(); i++) {
+			System.out.println(hed.getHalfEdge(i));
+		}
 
 		// Assemble scene
 		scene.compile();
@@ -172,7 +174,7 @@ public class CG4Frame extends JFrame {
 	 * @param args
 	 *            Program arguments.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		// Create the central frame
 		CG4Frame frame = new CG4Frame();
 		// Add content to the scene graph
