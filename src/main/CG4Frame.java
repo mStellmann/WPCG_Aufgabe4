@@ -1,6 +1,8 @@
 package main;
 
 import interfaces.IHalfEdgeDatastructure;
+import interfaces.IHalfEdgeDatastructureOperations;
+import interfaces.IHalfEdgeFacet;
 
 import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
@@ -14,6 +16,9 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3f;
 
+import classes.HalfEdge;
+import classes.HalfEdgeDatastructureOperations;
+import classes.HalfEdgeVertex;
 import classes.Triangle;
 import classes.TriangleMesh;
 
@@ -114,9 +119,37 @@ public class CG4Frame extends JFrame {
 		scene.addChild(MeshShapeFactory.createMeshShape(tetrahedron));
 
 		IHalfEdgeDatastructure hed = HalfEdgeDatastructureConverter.convert(tetrahedron);
+		IHalfEdgeDatastructureOperations hedOperations = new HalfEdgeDatastructureOperations();
+		// Println - HalfEdgeDatastructure
 		for(int i = 0; i < hed.getNumberOfHalfEdges(); i++) {
 			System.out.println(hed.getHalfEdge(i));
 		}
+		
+		// ----- some tests -----
+		// adjacent vertices of a vertex
+		for(HalfEdgeVertex elem : hedOperations.getAdjacentVertices(hed.getVertex(0)))
+			System.out.println(elem);
+		
+		// incident facets of a vertex
+		for(IHalfEdgeFacet elem : hedOperations.getIncidentFacets(hed.getVertex(0)))
+			System.out.println(elem);
+		
+		// incident edges of a vertex
+		for(HalfEdge elem: hedOperations.getIncidetEdges(hed.getVertex(0)))
+			System.out.println(elem);
+		
+		// incident vertices of a facet
+		for(HalfEdgeVertex elem: hedOperations.getIncidentVertices(hed.getFacet(0)))
+			System.out.println(elem);
+		
+		// incident facets of a facet
+		for(IHalfEdgeFacet elem: hedOperations.getIncidentFacets(hed.getFacet(0)))
+			System.out.println(elem);
+		
+		// incident halfedges of a facet
+		for(HalfEdge elem: hedOperations.getIncidentHalfEdges(hed.getFacet(0)))
+			System.out.println(elem);
+		// ----- end tests -----
 
 		// Assemble scene
 		scene.compile();
