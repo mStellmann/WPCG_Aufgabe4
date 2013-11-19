@@ -121,33 +121,39 @@ public class CG4Frame extends JFrame {
 		IHalfEdgeDatastructure hed = HalfEdgeDatastructureConverter.convert(tetrahedron);
 		IHalfEdgeDatastructureOperations hedOperations = new HalfEdgeDatastructureOperations();
 		// Println - HalfEdgeDatastructure
-		for(int i = 0; i < hed.getNumberOfHalfEdges(); i++) {
+		for (int i = 0; i < hed.getNumberOfHalfEdges(); i++) {
 			System.out.println(hed.getHalfEdge(i));
 		}
-		
+
 		// ----- some tests -----
 		// adjacent vertices of a vertex
-		for(HalfEdgeVertex elem : hedOperations.getAdjacentVertices(hed.getVertex(0)))
+		System.out.println("Adjacent vertices of vertex(0):");
+		for (HalfEdgeVertex elem : hedOperations.getAdjacentVertices(hed.getVertex(0)))
 			System.out.println(elem);
-		
+
 		// incident facets of a vertex
-		for(IHalfEdgeFacet elem : hedOperations.getIncidentFacets(hed.getVertex(0)))
+		System.out.println("\nIncident facets of vertex(0):");
+		for (IHalfEdgeFacet elem : hedOperations.getIncidentFacets(hed.getVertex(0)))
 			System.out.println(elem);
-		
+
 		// incident edges of a vertex
-		for(HalfEdge elem: hedOperations.getIncidetEdges(hed.getVertex(0)))
+		System.out.println("\nIncident edges of vertex(0):");
+		for (HalfEdge elem : hedOperations.getIncidetEdges(hed.getVertex(0)))
 			System.out.println(elem);
-		
+
 		// incident vertices of a facet
-		for(HalfEdgeVertex elem: hedOperations.getIncidentVertices(hed.getFacet(0)))
+		System.out.println("\nIncident vertices of facet(0):");
+		for (HalfEdgeVertex elem : hedOperations.getIncidentVertices(hed.getFacet(0)))
 			System.out.println(elem);
-		
+
 		// incident facets of a facet
-		for(IHalfEdgeFacet elem: hedOperations.getIncidentFacets(hed.getFacet(0)))
+		System.out.println("\nIncident facets of facet(0):");
+		for (IHalfEdgeFacet elem : hedOperations.getIncidentFacets(hed.getFacet(0)))
 			System.out.println(elem);
-		
+
 		// incident halfedges of a facet
-		for(HalfEdge elem: hedOperations.getIncidentHalfEdges(hed.getFacet(0)))
+		System.out.println("\nIncident halfedges of facet(0):");
+		for (HalfEdge elem : hedOperations.getIncidentHalfEdges(hed.getFacet(0)))
 			System.out.println(elem);
 		// ----- end tests -----
 
@@ -207,7 +213,7 @@ public class CG4Frame extends JFrame {
 	 * @param args
 	 *            Program arguments.
 	 */
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		// Create the central frame
 		CG4Frame frame = new CG4Frame();
 		// Add content to the scene graph

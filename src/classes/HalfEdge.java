@@ -138,6 +138,6 @@ public class HalfEdge {
 
 	@Override
 	public String toString() {
-		return "HalfEdge [opposite=" + opposite.getName() + ", vertex=" + vertex.getName() + ", prev=" + prev.getName() + ", next=" + next.getName() + ", facet=" + facet + ", name=" + name + "]";
+		return "HalfEdge [name=" + name + ", opposite=" + opposite.getName() + ", vertex=" + vertex.getName() + ", prev=" + prev.getName() + ", next=" + next.getName() + ", facet=" + facet + "]";
 	}
 }
