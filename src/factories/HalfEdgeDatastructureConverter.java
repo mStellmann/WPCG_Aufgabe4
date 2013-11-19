@@ -66,12 +66,12 @@ public class HalfEdgeDatastructureConverter {
 			HalfEdgeVertex halfEdgeVertexK;
 
 			// Checking if every Vertex is unique
+			// TODO dry
 			if (vertexMap.containsKey(keyI)) {
 				halfEdgeVertexI = vertexMap.get(keyI);
 			} else {
 				halfEdgeVertexI = new HalfEdgeVertex(keyI);
 				vertexMap.put(keyI, halfEdgeVertexI);
-				halfEdgeVertexI.setName(getNextVertexName());
 				halfEdgeVertexI.setHalfEdge(halfEdgeI);
 				halfEdgeDatastructure.addVertex(halfEdgeVertexI);
 			}
@@ -81,7 +81,6 @@ public class HalfEdgeDatastructureConverter {
 			} else {
 				halfEdgeVertexJ = new HalfEdgeVertex(keyJ);
 				vertexMap.put(keyJ, halfEdgeVertexJ);
-				halfEdgeVertexJ.setName(getNextVertexName());
 				halfEdgeVertexJ.setHalfEdge(halfEdgeJ);
 				halfEdgeDatastructure.addVertex(halfEdgeVertexJ);
 			}
@@ -91,15 +90,9 @@ public class HalfEdgeDatastructureConverter {
 			} else {
 				halfEdgeVertexK = new HalfEdgeVertex(keyK);
 				vertexMap.put(keyK, halfEdgeVertexK);
-				halfEdgeVertexK.setName(getNextVertexName());
 				halfEdgeVertexK.setHalfEdge(halfEdgeK);
 				halfEdgeDatastructure.addVertex(halfEdgeVertexK);
 			}
-
-			// setting halfedge-names
-			halfEdgeI.setName(getNextHalfEdgeName());
-			halfEdgeJ.setName(getNextHalfEdgeName());
-			halfEdgeK.setName(getNextHalfEdgeName());
 
 			// setting vertices in halfedges
 			halfEdgeI.setVertex(halfEdgeVertexI);
@@ -170,24 +163,5 @@ public class HalfEdgeDatastructureConverter {
 		} else {
 			return findOpposite(x + 1, startVertex, nextStartVertex, halfEdgeDatastructure);
 		}
-	}
-
-	/**
-	 * This method creates the next name of a halfedge. Algorithmus verbesseren
-	 * und Fehler finden
-	 * 
-	 * @return Next halfedgename.
-	 */
-	private static String getNextHalfEdgeName() {
-		return "e" + halfedgenameIndex++;
-	}
-
-	/**
-	 * This method creates the next name of a vertex.
-	 * 
-	 * @return Next vertexname.
-	 */
-	private static String getNextVertexName() {
-		return "v" + vertexnameIndex++;
 	}
 }

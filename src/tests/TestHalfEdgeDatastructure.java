@@ -32,7 +32,7 @@ public class TestHalfEdgeDatastructure {
     public void testVertices() {
         IHalfEdgeDatastructure ds = createHalfEdgeDatastructure();
         for (int i = 0; i < ds.getNumberOfVertices(); i++) {
-            assertNotEquals("Invalid vertex link.", ds.getVertex(i)
+            assertNotSame("Invalid vertex link.", ds.getVertex(i)
                     .getHalfEdge(), null);
         }
     }
@@ -44,7 +44,7 @@ public class TestHalfEdgeDatastructure {
     public void testFacets() {
         IHalfEdgeDatastructure ds = createHalfEdgeDatastructure();
         for (int i = 0; i < ds.getNumberOfFacets(); i++) {
-            assertNotEquals("Invalid facet link.",
+        	assertNotSame("Invalid facet link.",
                     ds.getFacet(i).getHalfEdge(), null);
             assertEquals(ds.getFacet(i).getHalfEdge().getFacet(),
                     ds.getFacet(i));
@@ -60,13 +60,13 @@ public class TestHalfEdgeDatastructure {
         for (int i = 0; i < ds.getNumberOfHalfEdges(); i++) {
 
             // Test next() -> prev()
-            assertNotEquals("Invalid half edge link.", ds.getHalfEdge(i)
+        	assertNotSame("Invalid half edge link.", ds.getHalfEdge(i)
                     .getNext(), null);
             assertEquals("Invalid half edge link.", ds.getHalfEdge(i).getNext()
                     .getPrev(), ds.getHalfEdge(i));
 
             // Test prev() -> next()
-            assertNotEquals("Invalid half edge link.", ds.getHalfEdge(i)
+            assertNotSame("Invalid half edge link.", ds.getHalfEdge(i)
                     .getPrev(), null);
             assertEquals("Invalid half edge link.", ds.getHalfEdge(i).getPrev()
                     .getNext(), ds.getHalfEdge(i));
